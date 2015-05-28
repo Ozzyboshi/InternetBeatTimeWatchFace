@@ -47,11 +47,14 @@ public class InternetBeatTimeWatchFace {
         Paint beatTimePaint = new Paint();
         beatTimePaint.setColor(DATE_AND_TIME_DEFAULT_COLOUR);
         beatTimePaint.setTextSize(context.getResources().getDimension(R.dimen.date_size));
-        beatTimePaint.setTypeface(Typeface.create("cursive", Typeface.BOLD_ITALIC));
+        final Typeface font = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-ThinItalic.ttf");
+        beatTimePaint.setTypeface(font);
         beatTimePaint.setAntiAlias(true);
 
         Paint dateOnlyPaint = new Paint();
         dateOnlyPaint.setColor(DATE_AND_TIME_DEFAULT_COLOUR);
+        final Typeface dateFont = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-LightItalic.ttf");
+        dateOnlyPaint.setTypeface(dateFont);
         dateOnlyPaint.setTextSize(context.getResources().getDimension(R.dimen.date_size));
         dateOnlyPaint.setAntiAlias(true);
 
@@ -75,7 +78,7 @@ public class InternetBeatTimeWatchFace {
         //utc = new org.joda.time.DateTime(DateTimeZone.UTC);
         //time.setToNow();
         utc = new org.joda.time.DateTime(org.joda.time.DateTimeZone.forTimeZone(beatZone));
-        double swatch = (double)((utc.getHourOfDay() +0)%24)+(double) utc.getMinuteOfHour()/60 + (double) utc.getSecondOfMinute()/3600;
+        double swatch = (double)((utc.getHourOfDay() )%24)+(double) utc.getMinuteOfHour()/60 + (double) utc.getSecondOfMinute()/3600;
         return new Double(swatch*1000/24).doubleValue();
     }
 
