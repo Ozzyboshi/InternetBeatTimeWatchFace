@@ -108,9 +108,9 @@ public class InternetBeatTimeWatchFace {
 
         String beatTimeText;
         if (shouldShowSeconds)
-            beatTimeText=String.format(java.util.Locale.ENGLISH,"@         %.2f",beats);
+            beatTimeText=String.format(java.util.Locale.ENGLISH,"@         %.2f"+"lol"+wakelockDebug,beats);
         else
-            beatTimeText=String.format(java.util.Locale.ENGLISH,"@            %d",(int)beats);
+            beatTimeText=String.format(java.util.Locale.ENGLISH,"@            %d"+"lol"+wakelockDebug,(int)beats);
 
         float beatTimeXOffset = computeXOffset(beatTimeText, beatTimePaint, bounds);
         float beatTimeYOffset = computeDateYOffset(beatTimeText, beatTimePaint);

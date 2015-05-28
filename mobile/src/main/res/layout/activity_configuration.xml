@@ -67,5 +67,14 @@
         android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New ToggleButton"
+        android:id="@+id/configurazion_ambient_mode_accuracy"
+        android:textOn="@string/ambient_mode_config_togglebutton_on"
+        android:textOff="@string/ambient_mode_config_togglebutton_off"
+        android:checked="true" />
   </LinearLayout>
 </RelativeLayout>

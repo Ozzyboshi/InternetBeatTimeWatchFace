@@ -70,6 +70,10 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .build();
+
+            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                    "WatchFaceWakelockTag");
         }
 
         private void startTimerIfNecessary() {
@@ -82,12 +86,6 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
                 Log.d(TAG,"End of startTimerIfNecessary - start timeTick with beatsRunnable");
                 timeTick.post(beatsRunnable);
             }
-            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                    "WatchFaceWakelockTag");
-            wakeLock.acquire();
-            watchFace.wakelockDebug=wakeLock.isHeld();
-
         }
 
         private final Runnable timeRunnable = new Runnable() {
@@ -145,11 +143,11 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
             if (visible) {
                 registerTimeZoneReceiver();
                 googleApiClient.connect();
-                Log.d(TAG,"Face visible, acquire wakelock");
-                if (!wakeLock.isHeld()) wakeLock.acquire();
+                //Log.d(TAG,"Face visible, acquire wakelock");
+                //if (!wakeLock.isHeld()) wakeLock.acquire();
             } else {
-                Log.d(TAG,"Face no more visible, release wakelock");
-                if (wakeLock.isHeld()) wakeLock.release();
+                //Log.d(TAG,"Face no more visible, release wakelock");
+                //if (wakeLock.isHeld()) wakeLock.release();
                 unregisterTimeZoneReceiver();
                 releaseGoogleApiClient();
             }
@@ -263,6 +261,15 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
                 if (dataMap.containsKey(WatchfaceSyncCommons.KEY_DATE_TIME_COLOUR)) {
                     String timeColour = dataMap.getString(WatchfaceSyncCommons.KEY_DATE_TIME_COLOUR);
                     watchFace.updateDateAndTimeColourTo(Color.parseColor(timeColour));
+                }
+                if (dataMap.containsKey(WatchfaceSyncCommons.KEY_AMBIENT_MODE_BEAT_ACCURACY)) {
+                    boolean ambientModeAccuracy=dataMap.getBoolean(WatchfaceSyncCommons.KEY_AMBIENT_MODE_BEAT_ACCURACY, false);
+                    Log.d(TAG,"Ambientmode accuracy is "+ambientModeAccuracy);
+                    if (ambientModeAccuracy==false && wakeLock.isHeld())
+                        wakeLock.release();
+                    else if (ambientModeAccuracy==true && !wakeLock.isHeld())
+                        wakeLock.acquire();
+                    watchFace.wakelockDebug=wakeLock.isHeld();
                 }
             }
         }

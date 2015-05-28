@@ -7,6 +7,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.ToggleButton;
+
 import com.ozzyboshi.simpleandroidwatchface.R;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -57,6 +60,16 @@ public class SimpleWatchFaceConfigurationActivity extends ActionBarActivity impl
             public void onClick(View v) {
                 ColourChooserDialog.newInstance(getString(R.string.pick_date_time_colour))
                         .show(getFragmentManager(), TAG_DATE_AND_TIME_COLOUR_CHOOSER);
+            }
+        });
+
+        ((ToggleButton) findViewById(R.id.configurazion_ambient_mode_accuracy)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PutDataMapRequest putDataMapReq = PutDataMapRequest.create(WatchfaceSyncCommons.PATH);
+                putDataMapReq.getDataMap().putBoolean(WatchfaceSyncCommons.KEY_AMBIENT_MODE_BEAT_ACCURACY, !isChecked);
+                PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
+                Wearable.DataApi.putDataItem(googleApiClient, putDataReq);
             }
         });
 
