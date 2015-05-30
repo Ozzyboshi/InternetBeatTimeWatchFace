@@ -30,7 +30,7 @@ public class InternetBeatTimeWatchFace {
     private org.joda.time.DateTime utc;
     private final TimeZone beatZone;
 
-    public static boolean wakelockDebug=false;
+    //public static boolean wakelockDebug=false;
 
     private boolean shouldShowSeconds = true;
     private int backgroundColour = BACKGROUND_DEFAULT_COLOUR;
@@ -86,7 +86,7 @@ public class InternetBeatTimeWatchFace {
         String beatTimeText=String.format(java.util.Locale.ENGLISH, "%.3f", beats);
 
         String milliBeats=beatTimeText.substring(beatTimeText.length() - 3);
-        Integer milliBeatsToNextBeat=1000-new Integer(milliBeats);
+        Integer milliBeatsToNextBeat=1000-Integer.valueOf(milliBeats);
         Log.d(TAG,"getSecondsToNextBeat - text : "+beatTimeText+" millibeats "+milliBeats+" millibeats to next beat "+milliBeatsToNextBeat.toString());
 
         Double secondsToNextBeat = milliBeatsToNextBeat*0.0864;
@@ -108,9 +108,9 @@ public class InternetBeatTimeWatchFace {
 
         String beatTimeText;
         if (shouldShowSeconds)
-            beatTimeText=String.format(java.util.Locale.ENGLISH,"@         %.2f"+"lol"+wakelockDebug,beats);
+            beatTimeText=String.format(java.util.Locale.ENGLISH,"@         %.2f",beats);
         else
-            beatTimeText=String.format(java.util.Locale.ENGLISH,"@            %d"+"lol"+wakelockDebug,(int)beats);
+            beatTimeText=String.format(java.util.Locale.ENGLISH,"@            %d",(int)beats);
 
         float beatTimeXOffset = computeXOffset(beatTimeText, beatTimePaint, bounds);
         float beatTimeYOffset = computeDateYOffset(beatTimeText, beatTimePaint);

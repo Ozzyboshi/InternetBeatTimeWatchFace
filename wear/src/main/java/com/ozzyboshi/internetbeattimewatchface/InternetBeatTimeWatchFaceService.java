@@ -269,7 +269,7 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
                         wakeLock.release();
                     else if (ambientModeAccuracy==true && !wakeLock.isHeld())
                         wakeLock.acquire();
-                    watchFace.wakelockDebug=wakeLock.isHeld();
+                    //watchFace.wakelockDebug=wakeLock.isHeld();
                 }
             }
         }
@@ -300,7 +300,7 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
         public void onDestroy() {
             Log.d(TAG,"Destroy engine");
             wakeLock.release();
-            watchFace.wakelockDebug=wakeLock.isHeld();
+            //watchFace.wakelockDebug=wakeLock.isHeld();
             timeTick.removeCallbacks(timeRunnable);
             releaseGoogleApiClient();
 
