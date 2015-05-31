@@ -62,7 +62,7 @@ public class InternetBeatTimeWatchFace {
         return new InternetBeatTimeWatchFace(timePaint, beatTimePaint, dateOnlyPaint, backgroundPaint, new Time());
     }
 
-    InternetBeatTimeWatchFace(Paint timePaint, Paint beatTimePaint, Paint dateOnlyPaint, Paint backgroundPaint, Time time) {
+    private InternetBeatTimeWatchFace(Paint timePaint, Paint beatTimePaint, Paint dateOnlyPaint, Paint backgroundPaint, Time time) {
         this.timePaint = timePaint;
         this.beatTimePaint = beatTimePaint;
         this.dateOnlyPaint = dateOnlyPaint;
@@ -73,8 +73,6 @@ public class InternetBeatTimeWatchFace {
     }
 
     private double getBeats() {
-        //utc = new org.joda.time.DateTime(DateTimeZone.UTC);
-        //time.setToNow();
         utc = new org.joda.time.DateTime(org.joda.time.DateTimeZone.forTimeZone(beatZone));
         double swatch = (double)((utc.getHourOfDay() )%24)+(double) utc.getMinuteOfHour()/60 + (double) utc.getSecondOfMinute()/3600;
         return swatch*1000/24;
