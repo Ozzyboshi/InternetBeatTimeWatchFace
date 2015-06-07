@@ -29,7 +29,7 @@
 
       <meta-data
         android:name="com.google.android.wearable.watchface.companionConfigurationAction"
-        android:value="com.ozzyboshi.simpleandroidwatchface.CONFIG_DIGITAL" />
+        android:value="com.ozzyboshi.internetbeattimewatchface.CONFIG_DIGITAL" />
 
       <intent-filter>
         <action android:name="android.service.wallpaper.WallpaperService" />

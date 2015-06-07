@@ -10,8 +10,6 @@ import android.text.format.Time;
 import android.util.Log;
 import com.ozzyboshi.simpleandroidwatchface.R;
 
-import org.joda.time.DateTimeZone;
-
 import java.util.TimeZone;
 
 public class InternetBeatTimeWatchFace {
@@ -32,7 +30,7 @@ public class InternetBeatTimeWatchFace {
     private org.joda.time.DateTime utc;
     private final TimeZone beatZone;
 
-    public static boolean wakelockDebug=false;
+    //public static boolean wakelockDebug=false;
 
     private boolean shouldShowSeconds = true;
     private int backgroundColour = BACKGROUND_DEFAULT_COLOUR;
@@ -64,7 +62,7 @@ public class InternetBeatTimeWatchFace {
         return new InternetBeatTimeWatchFace(timePaint, beatTimePaint, dateOnlyPaint, backgroundPaint, new Time());
     }
 
-    InternetBeatTimeWatchFace(Paint timePaint, Paint beatTimePaint, Paint dateOnlyPaint, Paint backgroundPaint, Time time) {
+    private InternetBeatTimeWatchFace(Paint timePaint, Paint beatTimePaint, Paint dateOnlyPaint, Paint backgroundPaint, Time time) {
         this.timePaint = timePaint;
         this.beatTimePaint = beatTimePaint;
         this.dateOnlyPaint = dateOnlyPaint;
@@ -75,11 +73,9 @@ public class InternetBeatTimeWatchFace {
     }
 
     private double getBeats() {
-        //utc = new org.joda.time.DateTime(DateTimeZone.UTC);
-        //time.setToNow();
         utc = new org.joda.time.DateTime(org.joda.time.DateTimeZone.forTimeZone(beatZone));
         double swatch = (double)((utc.getHourOfDay() )%24)+(double) utc.getMinuteOfHour()/60 + (double) utc.getSecondOfMinute()/3600;
-        return new Double(swatch*1000/24).doubleValue();
+        return swatch*1000/24;
     }
 
     public Double getSecondsToNextBeat() {
@@ -88,11 +84,11 @@ public class InternetBeatTimeWatchFace {
         String beatTimeText=String.format(java.util.Locale.ENGLISH, "%.3f", beats);
 
         String milliBeats=beatTimeText.substring(beatTimeText.length() - 3);
-        Integer milliBeatsToNextBeat=1000-new Integer(milliBeats);
+        Integer milliBeatsToNextBeat=1000-Integer.valueOf(milliBeats);
         Log.d(TAG,"getSecondsToNextBeat - text : "+beatTimeText+" millibeats "+milliBeats+" millibeats to next beat "+milliBeatsToNextBeat.toString());
 
-        Double secondsToNextBeat = new Double(milliBeatsToNextBeat*0.0864);
-        Log.d(TAG,"getSecondsToNextBeat - next beat at "+secondsToNextBeat.doubleValue());
+        Double secondsToNextBeat = milliBeatsToNextBeat*0.0864;
+        Log.d(TAG,"getSecondsToNextBeat - next beat at "+secondsToNextBeat);
         return secondsToNextBeat;
     }
 
@@ -108,9 +104,7 @@ public class InternetBeatTimeWatchFace {
         float timeYOffset = computeTimeYOffset(timeText, timePaint, bounds);
         canvas.drawText(timeText, timeXOffset, timeYOffset, timePaint);
 
-
-
-        String beatTimeText=null;
+        String beatTimeText;
         if (shouldShowSeconds)
             beatTimeText=String.format(java.util.Locale.ENGLISH,"@         %.2f",beats);
         else

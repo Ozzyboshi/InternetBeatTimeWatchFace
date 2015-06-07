@@ -70,6 +70,10 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .build();
+
+            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                    "WatchFaceWakelockTag");
         }
 
         private void startTimerIfNecessary() {
@@ -78,16 +82,12 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
             if (isVisible() && !isInAmbientMode()) {
                 timeTick.post(timeRunnable);
             }
-            else if (isVisible() && isInAmbientMode() && watchFace!=null ) {
+
+            // I enter here if is in ambient mode only
+            else if (isVisible() && watchFace!=null ) {
                 Log.d(TAG,"End of startTimerIfNecessary - start timeTick with beatsRunnable");
                 timeTick.post(beatsRunnable);
             }
-            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                    "WatchFaceWakelockTag");
-            wakeLock.acquire();
-            watchFace.wakelockDebug=wakeLock.isHeld();
-
         }
 
         private final Runnable timeRunnable = new Runnable() {
@@ -107,19 +107,6 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
 
                 if (isVisible() && isInAmbientMode()) {
                     Double secondsToNextBeat=watchFace.getSecondsToNextBeat();
-
-                    // If secondstonextbeat<60 I dont need to post a runnable because onTimeTick comes first
-                    // I also release the wakelock to preserve battery
-                    /*if (secondsToNextBeat>60) {
-                        if (wakeLock.isHeld()) {
-                            Log.d(TAG, "wakelock released");
-                            wakeLock.release();
-                            watchFace.wakelockDebug=wakeLock.isHeld();
-                        }
-
-                        return ;
-                    }*/
-
                     Double milliSecondsToNextBeat=secondsToNextBeat*1000;
                     Log.d(TAG,"beatsRunnable - schedule next draw at "+milliSecondsToNextBeat.longValue());
                     timeTick.postDelayed(this,milliSecondsToNextBeat.longValue());
@@ -145,11 +132,11 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
             if (visible) {
                 registerTimeZoneReceiver();
                 googleApiClient.connect();
-                Log.d(TAG,"Face visible, acquire wakelock");
-                if (!wakeLock.isHeld()) wakeLock.acquire();
+                //Log.d(TAG,"Face visible, acquire wakelock");
+                //if (!wakeLock.isHeld()) wakeLock.acquire();
             } else {
-                Log.d(TAG,"Face no more visible, release wakelock");
-                if (wakeLock.isHeld()) wakeLock.release();
+                //Log.d(TAG,"Face no more visible, release wakelock");
+                //if (wakeLock.isHeld()) wakeLock.release();
                 unregisterTimeZoneReceiver();
                 releaseGoogleApiClient();
             }
@@ -173,7 +160,7 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
             registerReceiver(timeZoneChangedReceiver, timeZoneFilter);
         }
 
-        private BroadcastReceiver timeZoneChangedReceiver = new BroadcastReceiver() {
+        final private BroadcastReceiver timeZoneChangedReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (Intent.ACTION_TIMEZONE_CHANGED.equals(intent.getAction())) {
@@ -190,22 +177,6 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
 
         @Override
         public void onTimeTick() {
-
-
-            /*Double secondsToNextBeat=watchFace.getSecondsToNextBeat();
-            if (secondsToNextBeat<60) {
-                timeTick.removeCallbacks(this.beatsRunnable);
-
-                if (!wakeLock.isHeld()) {
-                    Log.d(TAG,"acquired wakelock");
-                    wakeLock.acquire();
-                    watchFace.wakelockDebug=wakeLock.isHeld();
-                }
-                Double milliSecondsToNextBeat = secondsToNextBeat * 1000;
-                Log.d(TAG, "beatsRunnable after onTimetick invalidate - schedule next draw at " + milliSecondsToNextBeat.longValue());
-
-                timeTick.postDelayed(this.beatsRunnable, milliSecondsToNextBeat.longValue());
-            }*/
             super.onTimeTick();
             invalidate();
         }
@@ -264,6 +235,15 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
                     String timeColour = dataMap.getString(WatchfaceSyncCommons.KEY_DATE_TIME_COLOUR);
                     watchFace.updateDateAndTimeColourTo(Color.parseColor(timeColour));
                 }
+                if (dataMap.containsKey(WatchfaceSyncCommons.KEY_AMBIENT_MODE_BEAT_ACCURACY)) {
+                    boolean ambientModeAccuracy=dataMap.getBoolean(WatchfaceSyncCommons.KEY_AMBIENT_MODE_BEAT_ACCURACY, false);
+                    Log.d(TAG,"Ambient mode accuracy is "+ambientModeAccuracy);
+                    if (!ambientModeAccuracy && wakeLock.isHeld())
+                        wakeLock.release();
+                    else if (ambientModeAccuracy && !wakeLock.isHeld())
+                        wakeLock.acquire();
+                    //watchFace.wakelockDebug=wakeLock.isHeld();
+                }
             }
         }
 
@@ -293,7 +273,7 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
         public void onDestroy() {
             Log.d(TAG,"Destroy engine");
             wakeLock.release();
-            watchFace.wakelockDebug=wakeLock.isHeld();
+            //watchFace.wakelockDebug=wakeLock.isHeld();
             timeTick.removeCallbacks(timeRunnable);
             releaseGoogleApiClient();
 

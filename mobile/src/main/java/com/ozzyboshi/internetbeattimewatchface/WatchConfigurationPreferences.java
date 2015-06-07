@@ -19,7 +19,7 @@ public class WatchConfigurationPreferences {
         return new WatchConfigurationPreferences(preferences);
     }
 
-    WatchConfigurationPreferences(SharedPreferences preferences) {
+    private WatchConfigurationPreferences(SharedPreferences preferences) {
         this.preferences = preferences;
     }
 
