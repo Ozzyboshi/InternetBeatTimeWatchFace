@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
@@ -80,6 +81,10 @@ public class SimpleWatchFaceConfigurationActivity extends ActionBarActivity impl
 
         backgroundColourImagePreview.setBackgroundColor(watchConfigurationPreferences.getBackgroundColour());
         dateAndTimeColourImagePreview.setBackgroundColor(watchConfigurationPreferences.getDateAndTimeColour());
+
+        WebView credits = (WebView)findViewById(R.id.credits);
+        credits.loadUrl("file:///android_asset/www/credits.html");
+
     }
 
     @Override

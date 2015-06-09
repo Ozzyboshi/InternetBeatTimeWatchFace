@@ -75,5 +75,12 @@
         android:textOn="@string/ambient_mode_config_togglebutton_on"
         android:textOff="@string/ambient_mode_config_togglebutton_off"
         android:checked="true" />
+
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/credits"
+        android:layout_gravity="center_horizontal" />
+
   </LinearLayout>
 </RelativeLayout>
