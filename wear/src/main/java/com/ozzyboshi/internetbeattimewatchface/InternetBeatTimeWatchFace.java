@@ -31,6 +31,7 @@ import com.ozzyboshi.simpleandroidwatchface.R;
 
 import java.util.TimeZone;
 
+@SuppressWarnings("deprecation")
 public class InternetBeatTimeWatchFace {
 
     private static final String TIME_FORMAT_WITHOUT_SECONDS = "%02d.%02d";
@@ -81,7 +82,8 @@ public class InternetBeatTimeWatchFace {
         return new InternetBeatTimeWatchFace(timePaint, beatTimePaint, dateOnlyPaint, backgroundPaint, new Time());
     }
 
-    private InternetBeatTimeWatchFace(Paint timePaint, Paint beatTimePaint, Paint dateOnlyPaint, Paint backgroundPaint, Time time) {
+    @SuppressWarnings("deprecation")
+    private InternetBeatTimeWatchFace(Paint timePaint, Paint beatTimePaint, Paint dateOnlyPaint, Paint backgroundPaint, @SuppressWarnings("deprecation") Time time) {
         this.timePaint = timePaint;
         this.beatTimePaint = beatTimePaint;
         this.dateOnlyPaint = dateOnlyPaint;
