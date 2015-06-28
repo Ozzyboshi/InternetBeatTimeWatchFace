@@ -18,7 +18,7 @@
 
 package com.ozzyboshi.internetbeattimewatchface;
 
-public final class WatchfaceSyncCommons {
+final class WatchfaceSyncCommons {
     private WatchfaceSyncCommons() {
         //no-op
     }

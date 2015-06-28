@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "com.ozzyboshi.internetbeattimewatchface"
         minSdkVersion 20
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
