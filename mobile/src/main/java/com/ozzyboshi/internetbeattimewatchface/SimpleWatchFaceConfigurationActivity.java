@@ -82,11 +82,21 @@ public class SimpleWatchFaceConfigurationActivity extends ActionBarActivity impl
             }
         });
 
-        ((ToggleButton) findViewById(R.id.configurazion_ambient_mode_accuracy)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        ((ToggleButton) findViewById(R.id.configuration_ambient_mode_accuracy)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PutDataMapRequest putDataMapReq = PutDataMapRequest.create(WatchfaceSyncCommons.PATH);
                 putDataMapReq.getDataMap().putBoolean(WatchfaceSyncCommons.KEY_AMBIENT_MODE_BEAT_ACCURACY, !isChecked);
+                PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
+                Wearable.DataApi.putDataItem(googleApiClient, putDataReq);
+            }
+        });
+
+        ((ToggleButton) findViewById(R.id.configuration_world_map)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PutDataMapRequest putDataMapReq = PutDataMapRequest.create(WatchfaceSyncCommons.PATH);
+                putDataMapReq.getDataMap().putBoolean(WatchfaceSyncCommons.KEY_WORLDMAP_BACKGROUND, isChecked);
                 PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
                 Wearable.DataApi.putDataItem(googleApiClient, putDataReq);
             }

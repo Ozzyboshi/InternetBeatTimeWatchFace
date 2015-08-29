@@ -25,10 +25,12 @@ import android.content.IntentFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
+import android.support.v4.content.ContextCompat;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
 import android.util.Log;
@@ -48,11 +50,19 @@ import com.google.android.gms.wearable.Wearable;
 
 import java.util.concurrent.TimeUnit;
 
+import com.ozzyboshi.worldmap.ImageSizeDifferentException;
+import com.ozzyboshi.worldmap.WorldMapMaker;
+import com.ozzyboshi.worldmap.androidgraphics.WorldMapAndroidGraphicsDraw;
+
 public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
 
     private static final long TICK_PERIOD_MILLIS = TimeUnit.SECONDS.toMillis(1);
     private PowerManager.WakeLock wakeLock;
     private static final String TAG = "BEATS_SWATCH_FACE_DEBUG";
+
+    private WorldMapMaker maker;
+    private WorldMapAndroidGraphicsDraw image;
+    private boolean worldMapEnabled=false;
 
     @Override
     public Engine onCreateEngine() {
@@ -79,7 +89,12 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
                     .setShowSystemUiTime(false)
                     .build());
 
-            timeTick = new Handler(Looper.myLooper());
+            Looper looper=Looper.myLooper();
+            if (looper != null) {
+                timeTick = new Handler(looper);
+            }
+
+
             startTimerIfNecessary();
 
             watchFace = InternetBeatTimeWatchFace.newInstance(InternetBeatTimeWatchFaceService.this);
@@ -88,6 +103,7 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .build();
+
 
             PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
             wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
@@ -141,6 +157,8 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
         private void invalidateIfNecessary() {
             if (isVisible() && !isInAmbientMode()) {
                 invalidate();
+                if (worldMapEnabled)
+                    watchFace.setWorldMapBitmapIfNecessary(maker,image);
             }
         }
 
@@ -197,6 +215,8 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
         public void onTimeTick() {
             super.onTimeTick();
             invalidate();
+            if (worldMapEnabled)
+                watchFace.setWorldMapBitmapIfNecessary(maker,image);
         }
 
         @Override
@@ -255,12 +275,24 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
                 }
                 if (dataMap.containsKey(WatchfaceSyncCommons.KEY_AMBIENT_MODE_BEAT_ACCURACY)) {
                     boolean ambientModeAccuracy=dataMap.getBoolean(WatchfaceSyncCommons.KEY_AMBIENT_MODE_BEAT_ACCURACY, false);
-                    Log.d(TAG,"Ambient mode accuracy is "+ambientModeAccuracy);
+                    Log.d(TAG, "Ambient mode accuracy is " + ambientModeAccuracy);
                     if (!ambientModeAccuracy && wakeLock.isHeld())
                         wakeLock.release();
                     else if (ambientModeAccuracy && !wakeLock.isHeld())
                         wakeLock.acquire();
                     //watchFace.wakelockDebug=wakeLock.isHeld();
+                }
+                if (dataMap.containsKey(WatchfaceSyncCommons.KEY_WORLDMAP_BACKGROUND)) {
+                    boolean worldMapBackground = dataMap.getBoolean(WatchfaceSyncCommons.KEY_WORLDMAP_BACKGROUND,false);
+                    Log.d(TAG, "World Map background mode is " + worldMapBackground);
+                    if (worldMapBackground) {
+                        worldMapEnabled=true;
+                        WorldMapInit();
+                    }
+                    else {
+                        watchFace.setWorldBitmap(null);
+                        worldMapEnabled=false;
+                    }
                 }
             }
         }
@@ -290,12 +322,30 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
         @Override
         public void onDestroy() {
             Log.d(TAG,"Destroy engine");
-            wakeLock.release();
+            if (wakeLock.isHeld())
+                wakeLock.release();
             //watchFace.wakelockDebug=wakeLock.isHeld();
             timeTick.removeCallbacks(timeRunnable);
             releaseGoogleApiClient();
 
             super.onDestroy();
+        }
+
+        private void WorldMapInit() {
+            Drawable dayDrawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.worldmapday);
+            Drawable nightDrawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.worldmapnight);
+            image = new WorldMapAndroidGraphicsDraw();
+            image.setDayImageFile(dayDrawable);
+            image.setNightImageFile(nightDrawable);
+
+            try {
+                maker = new WorldMapMaker(image, false, false);
+                maker.BuildMapFromUnixTimestamp(System.currentTimeMillis() / 1000L);
+                watchFace.setWorldBitmap(image.getDestination());
+            }
+            catch (ImageSizeDifferentException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

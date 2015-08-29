@@ -71,10 +71,17 @@
     <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/configurazion_ambient_mode_accuracy"
+        android:id="@+id/configuration_ambient_mode_accuracy"
         android:textOn="@string/ambient_mode_config_togglebutton_on"
         android:textOff="@string/ambient_mode_config_togglebutton_off"
         android:checked="true" />
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/configuration_world_map"
+        android:textOff="World Map Background OFF"
+        android:textOn="World Map Background ON" />
 
     <WebView
         android:layout_width="match_parent"

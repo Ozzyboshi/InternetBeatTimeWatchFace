@@ -20,14 +20,17 @@
 package com.ozzyboshi.internetbeattimewatchface;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.text.format.Time;
 import android.util.Log;
-import com.ozzyboshi.simpleandroidwatchface.R;
+import com.ozzyboshi.worldmap.WorldMapMaker;
+import com.ozzyboshi.worldmap.androidgraphics.WorldMapAndroidGraphicsDraw;
 
 import java.util.TimeZone;
 
@@ -55,6 +58,9 @@ public class InternetBeatTimeWatchFace {
     private boolean shouldShowSeconds = true;
     private int backgroundColour = BACKGROUND_DEFAULT_COLOUR;
     private int dateAndTimeColour = DATE_AND_TIME_DEFAULT_COLOUR;
+
+    private Bitmap worldMapBitmap=null;
+    private long lastBackgroundUpdateTimeStamp=0; // Last timestamp when worldMapBitmap has been updated
 
     public static InternetBeatTimeWatchFace newInstance(Context context) {
         Paint timePaint = new Paint();
@@ -115,10 +121,15 @@ public class InternetBeatTimeWatchFace {
 
     public void draw(Canvas canvas, Rect bounds) {
 
-        Log.d(TAG,"Start drawing watchface");
+        //Log.d(TAG,"Start drawing watchface");
         time.setToNow();
         double beats=getBeats();
         canvas.drawRect(0, 0, bounds.width(), bounds.height(), backgroundPaint);
+
+        if (worldMapBitmap!=null) {
+            Bitmap mBackgroundScaledBitmap = Bitmap.createScaledBitmap(worldMapBitmap,bounds.width(), (int)(bounds.height()/1.50), true);
+            canvas.drawBitmap(mBackgroundScaledBitmap, 0, (int)(bounds.centerY()/2.50), null);
+        }
 
         String timeText = String.format(shouldShowSeconds ? TIME_FORMAT_WITH_SECONDS : TIME_FORMAT_WITHOUT_SECONDS, time.hour, time.minute, time.second);
         float timeXOffset = computeXOffset(timeText, timePaint, bounds);
@@ -143,8 +154,8 @@ public class InternetBeatTimeWatchFace {
         String dateOnlyText = String.format(DATE_FORMAT, time.monthDay, (time.month + 1), time.year);
         float dateOnlyXOffset = computeXOffset(dateOnlyText, dateOnlyPaint, bounds);
         //float dateOnlyYOffset = computeDateYOffset(dateOnlyText, dateOnlyPaint);
-        canvas.drawText(dateOnlyText, dateOnlyXOffset, timeYOffset / 2, dateOnlyPaint);
-        Log.d(TAG,"End drawing watchface");
+        canvas.drawText(dateOnlyText, dateOnlyXOffset, timeYOffset / 3, dateOnlyPaint);
+        //Log.d(TAG,"End drawing watchface");
     }
 
     private float computeXOffset(String text, Paint paint, Rect watchBounds) {
@@ -212,5 +223,45 @@ public class InternetBeatTimeWatchFace {
         timePaint.setColor(dateAndTimeColour);
         beatTimePaint.setColor(dateAndTimeColour);
         dateOnlyPaint.setColor(dateAndTimeColour);
+    }
+
+    public void setWorldBitmap(Bitmap bitmap) {
+        this.worldMapBitmap=bitmap;
+    }
+
+    public void setWorldMapBitmapIfNecessary(WorldMapMaker maker,WorldMapAndroidGraphicsDraw image) {
+        if (maker==null || image==null)
+            return ;
+        final long timeWorldMapRefresh=60*15; // World Map Background must be updated every 15 min
+        long timeAfterLastUpdate = System.currentTimeMillis() / 1000L-lastBackgroundUpdateTimeStamp;
+        if (timeAfterLastUpdate>timeWorldMapRefresh) {
+            lastBackgroundUpdateTimeStamp = System.currentTimeMillis() / 1000L;
+
+            // Async calculation of the background World Map
+            new WorldMapBackgroundUpdater(maker,image).execute();
+
+        }
+    }
+
+    private class WorldMapBackgroundUpdater extends AsyncTask<String, Void, Bitmap> {
+
+        final private WorldMapMaker maker;
+        final private WorldMapAndroidGraphicsDraw image;
+
+        public WorldMapBackgroundUpdater(WorldMapMaker maker,com.ozzyboshi.worldmap.androidgraphics.WorldMapAndroidGraphicsDraw image) {
+            this.maker=maker;
+            this.image=image;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            maker.BuildMapFromUnixTimestamp(System.currentTimeMillis()/1000L);
+            return image.getDestination();
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            setWorldBitmap(result);
+        }
     }
 }
