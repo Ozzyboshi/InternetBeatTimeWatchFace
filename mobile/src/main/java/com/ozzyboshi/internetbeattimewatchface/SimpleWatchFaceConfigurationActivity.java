@@ -28,9 +28,6 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
-
-import com.ozzyboshi.simpleandroidwatchface.R;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.PutDataMapRequest;

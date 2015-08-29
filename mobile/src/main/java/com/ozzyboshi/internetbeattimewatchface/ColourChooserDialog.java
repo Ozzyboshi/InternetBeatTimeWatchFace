@@ -24,7 +24,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import com.ozzyboshi.simpleandroidwatchface.R;
 
 public class ColourChooserDialog extends DialogFragment {
 
