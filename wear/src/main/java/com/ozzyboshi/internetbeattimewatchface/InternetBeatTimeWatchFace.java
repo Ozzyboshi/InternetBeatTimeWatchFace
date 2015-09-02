@@ -153,8 +153,11 @@ public class InternetBeatTimeWatchFace {
 
         String dateOnlyText = String.format(DATE_FORMAT, time.monthDay, (time.month + 1), time.year);
         float dateOnlyXOffset = computeXOffset(dateOnlyText, dateOnlyPaint, bounds);
-        //float dateOnlyYOffset = computeDateYOffset(dateOnlyText, dateOnlyPaint);
-        canvas.drawText(dateOnlyText, dateOnlyXOffset, timeYOffset / 3, dateOnlyPaint);
+
+        if (worldMapBitmap!=null)
+            canvas.drawText(dateOnlyText, dateOnlyXOffset, timeYOffset / 3, dateOnlyPaint);
+        else
+            canvas.drawText(dateOnlyText, dateOnlyXOffset, timeYOffset / 2, dateOnlyPaint);
         //Log.d(TAG,"End drawing watchface");
     }
 
