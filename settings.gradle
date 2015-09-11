@@ -1,1 +1,3 @@
 include ':mobile', ':wear', ':commons'
+include ':android-colorpicker'
+project(':android-colorpicker').projectDir = new File('libs/android-colorpicker/app')

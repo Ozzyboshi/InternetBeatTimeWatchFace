@@ -19,8 +19,10 @@
 package com.ozzyboshi.internetbeattimewatchface;
 
 import android.graphics.Color;
+
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -33,19 +35,20 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
+import com.woalk.apps.lib.colorpicker.ColorPickerDialog;
+import com.woalk.apps.lib.colorpicker.ColorPickerSwatch;
 
-public class SimpleWatchFaceConfigurationActivity extends ActionBarActivity implements ColourChooserDialog.Listener,
+public class SimpleWatchFaceConfigurationActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "SimpleWatchface";
-    private static final String TAG_BACKGROUND_COLOUR_CHOOSER = "background_chooser";
-    private static final String TAG_DATE_AND_TIME_COLOUR_CHOOSER = "date_time_chooser";
 
     private GoogleApiClient googleApiClient;
     private View backgroundColourImagePreview;
     private View dateAndTimeColourImagePreview;
     private WatchConfigurationPreferences watchConfigurationPreferences;
+    private PutDataMapRequest putDataMapReq = PutDataMapRequest.create(WatchfaceSyncCommons.PATH);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,18 +67,48 @@ public class SimpleWatchFaceConfigurationActivity extends ActionBarActivity impl
                 .build();
 
         findViewById(R.id.configuration_background_colour).setOnClickListener(new View.OnClickListener() {
+
+            //private PutDataMapRequest putDataMapReq = PutDataMapRequest.create(WatchfaceSyncCommons.PATH);
+
             @Override
             public void onClick(View v) {
-                ColourChooserDialog.newInstance(getString(R.string.pick_background_colour))
-                        .show(getFragmentManager(), TAG_BACKGROUND_COLOUR_CHOOSER);
+                int defaultColor = putDataMapReq.getDataMap().getInt(WatchfaceSyncCommons.KEY_BACKGROUND_COLOUR, Color.BLACK);
+                ColorPickerDialog dialog = ColorPickerDialog.newInstance(R.string.pick_background_colour, getResources().getIntArray(R.array.colors_intarray), defaultColor, 4, ColorPickerDialog.SIZE_SMALL);
+                dialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
+
+                    @Override
+                    public void onColorSelected(int colour) {
+                        watchConfigurationPreferences.setBackgroundColour(colour);
+                        putDataMapReq.getDataMap().putInt(WatchfaceSyncCommons.KEY_BACKGROUND_COLOUR, colour);
+                        ((GradientDrawable) backgroundColourImagePreview.getBackground()).setColor(colour);
+                        PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
+                        Wearable.DataApi.putDataItem(googleApiClient, putDataReq);
+                    }
+                });
+                dialog.show(getFragmentManager(), "backgroundColour");
             }
         });
 
         findViewById(R.id.configuration_time_colour).setOnClickListener(new View.OnClickListener() {
+
+            //private PutDataMapRequest putDataMapReq = PutDataMapRequest.create(WatchfaceSyncCommons.PATH);
+
             @Override
             public void onClick(View v) {
-                ColourChooserDialog.newInstance(getString(R.string.pick_date_time_colour))
-                        .show(getFragmentManager(), TAG_DATE_AND_TIME_COLOUR_CHOOSER);
+                int defaultColor = putDataMapReq.getDataMap().getInt(WatchfaceSyncCommons.KEY_DATE_TIME_COLOUR, Color.WHITE);
+                ColorPickerDialog dialog = ColorPickerDialog.newInstance(R.string.pick_date_time_colour, getResources().getIntArray(R.array.colors_intarray), defaultColor, 4, ColorPickerDialog.SIZE_SMALL);
+                dialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
+
+                    @Override
+                    public void onColorSelected(int colour) {
+                        watchConfigurationPreferences.setDateAndTimeColour(colour);
+                        putDataMapReq.getDataMap().putInt(WatchfaceSyncCommons.KEY_DATE_TIME_COLOUR, colour);
+                        ((GradientDrawable) dateAndTimeColourImagePreview.getBackground()).setColor(colour);
+                        PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
+                        Wearable.DataApi.putDataItem(googleApiClient, putDataReq);
+                    }
+                });
+                dialog.show(getFragmentManager(), "dateAndTimeColour");
             }
         });
 
@@ -86,6 +119,7 @@ public class SimpleWatchFaceConfigurationActivity extends ActionBarActivity impl
                 putDataMapReq.getDataMap().putBoolean(WatchfaceSyncCommons.KEY_AMBIENT_MODE_BEAT_ACCURACY, !isChecked);
                 PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
                 Wearable.DataApi.putDataItem(googleApiClient, putDataReq);
+                watchConfigurationPreferences.setKeyAmbientModeAccuracy(isChecked);
             }
         });
 
@@ -96,6 +130,7 @@ public class SimpleWatchFaceConfigurationActivity extends ActionBarActivity impl
                 putDataMapReq.getDataMap().putBoolean(WatchfaceSyncCommons.KEY_WORLDMAP_BACKGROUND, isChecked);
                 PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
                 Wearable.DataApi.putDataItem(googleApiClient, putDataReq);
+                watchConfigurationPreferences.setWorldMapBackground(isChecked);
             }
         });
 
@@ -104,12 +139,21 @@ public class SimpleWatchFaceConfigurationActivity extends ActionBarActivity impl
 
         watchConfigurationPreferences = WatchConfigurationPreferences.newInstance(this);
 
-        backgroundColourImagePreview.setBackgroundColor(watchConfigurationPreferences.getBackgroundColour());
-        dateAndTimeColourImagePreview.setBackgroundColor(watchConfigurationPreferences.getDateAndTimeColour());
+        ((GradientDrawable) backgroundColourImagePreview.getBackground()).setColor(watchConfigurationPreferences.getBackgroundColour());
+        ((GradientDrawable) dateAndTimeColourImagePreview.getBackground()).setColor(watchConfigurationPreferences.getDateAndTimeColour());
+
+        if (watchConfigurationPreferences.showWorldMapBackground())
+            ((ToggleButton) findViewById(R.id.configuration_world_map)).setChecked(true);
+
+        if (watchConfigurationPreferences.getAmbientModeAccuracy())
+            ((ToggleButton) findViewById(R.id.configuration_ambient_mode_accuracy)).setChecked(true);
+
+
+        putDataMapReq.getDataMap().putInt(WatchfaceSyncCommons.KEY_DATE_TIME_COLOUR, watchConfigurationPreferences.getDateAndTimeColour());
+        putDataMapReq.getDataMap().putInt(WatchfaceSyncCommons.KEY_BACKGROUND_COLOUR, watchConfigurationPreferences.getBackgroundColour());
 
         WebView credits = (WebView)findViewById(R.id.credits);
         credits.loadUrl("file:///android_asset/www/credits.html");
-
     }
 
     @Override
@@ -126,24 +170,6 @@ public class SimpleWatchFaceConfigurationActivity extends ActionBarActivity impl
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onColourSelected(String colour, String tag) {
-        PutDataMapRequest putDataMapReq = PutDataMapRequest.create(WatchfaceSyncCommons.PATH);
-
-        if (TAG_BACKGROUND_COLOUR_CHOOSER.equals(tag)) {
-            backgroundColourImagePreview.setBackgroundColor(Color.parseColor(colour));
-            watchConfigurationPreferences.setBackgroundColour(Color.parseColor(colour));
-            putDataMapReq.getDataMap().putString(WatchfaceSyncCommons.KEY_BACKGROUND_COLOUR, colour);
-        } else {
-            dateAndTimeColourImagePreview.setBackgroundColor(Color.parseColor(colour));
-            watchConfigurationPreferences.setDateAndTimeColour(Color.parseColor(colour));
-            putDataMapReq.getDataMap().putString(WatchfaceSyncCommons.KEY_DATE_TIME_COLOUR, colour);
-        }
-
-        PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
-        Wearable.DataApi.putDataItem(googleApiClient, putDataReq);
     }
 
     @Override

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/ozzy/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.0/support-annotations-23.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/pre-dexed/release/support-annotations-23.0.0-9d959a872196d31272f3f68dc444b4236eb840dc.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/wear/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/jars/libs/internal_impl-22.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/wear/build/intermediates/pre-dexed/debug/internal_impl-22.0.0-f8668b8d01d4b1c096d7b110131d8ff69785d66a.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/jars/libs/internal_impl-23.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/pre-dexed/release/internal_impl-23.0.0-bb22b896ca176343aaa7990511f425bc2264560b.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/commons/build/libs/commons.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="61cd0acf6bec13d069ad9494c9dd94753dbecfb2">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/pre-dexed/debug/commons-b14f1d6c4787e6b37e84cd7097dcc2eab75dda87.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/7.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="3033cc3a2c68dff3e5b646d6d084bdbdf7d00b25">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/wear/build/intermediates/pre-dexed/debug/classes-772238dbfc51ee68c71ca8f23b59fed01e33cd67.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/exploded-aar/com.android.support/support-v13/23.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="bb0ac3f3ee2d71854501cc28e52cc84a20209b41">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/pre-dexed/release/classes-4adae3cf29ebaaf3fd586845ac119f07dab64742.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/exploded-aar/com.android.support/support-v13/23.0.0/jars/libs/internal_impl-23.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="5d4bccb885c8a89d066ecb6c4addb553a99a79a2">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/pre-dexed/release/internal_impl-23.0.0-3a3018ae4e694b77f67f92e7d9f36c03b5fa63fd.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4c93d99d454c975536bbe3b42283eee847f03ea3">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/pre-dexed/debug/classes-27ab1cb9dcb37c8c5d30a9ac1375720956a5b07a.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4fcf0b1879f8caf497c073e1432d398e9e2988c1">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/pre-dexed/release/classes-07c6a894a76154efcd9ddb92db7acfdec34cc901.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/7.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="3033cc3a2c68dff3e5b646d6d084bdbdf7d00b25">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/pre-dexed/debug/classes-fbf4ebf372c8ab2cdb16583fb9baf214d887592c.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/wear/libs/joda-time-2.7.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="5599707a3eaad13e889f691b3af78c8c03842195">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/wear/build/intermediates/pre-dexed/debug/joda-time-2.7-df5bbf9436bcff8c8d14e35bd930b566e8544949.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/wear/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/21.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="efeda77c808750cb670ee9c48d8a1835d89dbcb2">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/wear/build/intermediates/pre-dexed/debug/classes-0d86e154426bbd2a400668330c2b5591eec47db3.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/exploded-aar/InternetBeatTimeWatchFace/android-colorpicker/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2f413888dfe99ab7a5f28193b67c83e5c489191c">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/pre-dexed/debug/classes-c4ad956c2cd3b8fce961effd521c9558c3a9ced7.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4c93d99d454c975536bbe3b42283eee847f03ea3">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/wear/build/intermediates/pre-dexed/debug/classes-735d839e1027985e7db64c5ab409f10a2605fc38.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/mobile/build/intermediates/pre-dexed/release/classes-d7527a23078f1de5ca67ecb77ba4286764fc8422.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/wear/build/intermediates/exploded-aar/com.google.android.support/wearable/1.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="27f19641b81b1078e653d2f0e5d1ed44d158a785">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/wear/build/intermediates/pre-dexed/debug/classes-6129da33cad7a7dafc5fd39ef3aa399404be1c00.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/wear/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/wear/build/intermediates/pre-dexed/debug/classes-2c8d274f625e1667d42d4df74bb2fd90b1b7f49b.jar" />
+    </item>
+    <item
+        jar="/home/ozzy/git/InternetBeatTimeWatchFace/wear/libs/wm.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="49eb446eb3992ec54f37729f981ad2efa55d2035">
+        <dex dex="/home/ozzy/git/InternetBeatTimeWatchFace/wear/build/intermediates/pre-dexed/debug/wm-e776f478e2b899c2afa5aa34e3b052f48515dcfe.jar" />
+    </item>
+
+</items>

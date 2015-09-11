@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string-array name="colors_array">
-    <item name="black">Black</item>
-    <item name="white">White</item>
-    <item name="red">Red</item>
-    <item name="green">Green</item>
-    <item name="cyan">Cyan</item>
-    <item name="magenta">Magenta</item>
-  </string-array>
+  <integer-array name="colors_intarray">
+      <item name="black">0xff000000</item>
+      <item name="red">0xffff0000</item>
+      <item name="blue">0xff0000ff</item>
+      <item name="cyan">0xff00ffff</item>
+      <item name="darkgray">0xff444444</item>
+      <item name="gray">0xff888888</item>
+      <item name="green">0xff00ff00</item>
+      <item name="magenta">0xffff00ff</item>
+      <item name="pink">0xffffcccc</item>
+      <item name="white">0xffffffff</item>
+      <item name="yellow">0xffffff00</item>
+      <item name="orange">0xffff6600</item>
+      <item name="purple">0xff9900cc</item>
+      <item name="brown">0xfffe9a2e</item>
+      <item name="darkred">0xff610b0b</item>
+      <item name="teal">0xff086a87</item>
+  </integer-array>
 </resources>

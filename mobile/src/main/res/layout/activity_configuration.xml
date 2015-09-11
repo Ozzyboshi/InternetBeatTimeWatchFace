@@ -38,6 +38,7 @@
 
       <View
         android:id="@+id/configuration_background_colour_preview"
+          android:background="@drawable/circle"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentEnd="true" />
@@ -62,6 +63,7 @@
 
       <View
         android:id="@+id/configuration_date_and_time_colour_preview"
+          android:background="@drawable/circle"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentEnd="true" />
@@ -74,7 +76,7 @@
         android:id="@+id/configuration_ambient_mode_accuracy"
         android:textOn="@string/ambient_mode_config_togglebutton_on"
         android:textOff="@string/ambient_mode_config_togglebutton_off"
-        android:checked="true" />
+         />
 
     <ToggleButton
         android:layout_width="wrap_content"

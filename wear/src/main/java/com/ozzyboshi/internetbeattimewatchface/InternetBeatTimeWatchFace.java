@@ -71,7 +71,7 @@ public class InternetBeatTimeWatchFace {
         Paint beatTimePaint = new Paint();
         beatTimePaint.setColor(DATE_AND_TIME_DEFAULT_COLOUR);
         beatTimePaint.setTextSize(context.getResources().getDimension(R.dimen.date_size));
-        final Typeface font = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-ThinItalic.ttf");
+        final Typeface font = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Bold.ttf");
         beatTimePaint.setTypeface(font);
         beatTimePaint.setAntiAlias(true);
 
@@ -119,7 +119,7 @@ public class InternetBeatTimeWatchFace {
         return secondsToNextBeat;
     }
 
-    public void draw(Canvas canvas, Rect bounds) {
+    public void draw(Canvas canvas, Rect bounds,boolean wakeLockHeld) {
 
         //Log.d(TAG,"Start drawing watchface");
         time.setToNow();
@@ -139,8 +139,11 @@ public class InternetBeatTimeWatchFace {
         String beatTimeText;
         if (shouldShowSeconds)
             beatTimeText=String.format(java.util.Locale.ENGLISH,"@         %.2f",beats);
-        else
-            beatTimeText=String.format(java.util.Locale.ENGLISH,"@            %d",(int)beats);
+        else {
+            beatTimeText = String.format(java.util.Locale.ENGLISH, "@            %d", (int) beats);
+            if (wakeLockHeld==false)
+               beatTimeText+=" *";
+        }
 
         float beatTimeXOffset = computeXOffset(beatTimeText, beatTimePaint, bounds);
         float beatTimeYOffset = computeDateYOffset(beatTimeText, beatTimePaint);

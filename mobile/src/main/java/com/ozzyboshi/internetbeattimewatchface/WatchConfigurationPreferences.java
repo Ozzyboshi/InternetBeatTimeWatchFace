@@ -29,6 +29,8 @@ public class WatchConfigurationPreferences {
     private static final String KEY_DATE_TIME_COLOUR = NAME + ".KEY_DATE_TIME_COLOUR";
     private static final int DEFAULT_BACKGROUND_COLOUR = Color.parseColor("black");
     private static final int DEFAULT_DATE_TIME_COLOUR = Color.parseColor("white");
+    private static final String KEY_WORDMAP_BACKGROUND = NAME+".WORLDMAP_BACKGROUND";
+    private static final String KEY_AMBIENT_MODE_ACCURACY = NAME+".AMBIENT_MODE_ACCURACY";
 
     private final SharedPreferences preferences;
 
@@ -55,5 +57,21 @@ public class WatchConfigurationPreferences {
 
     public void setDateAndTimeColour(int color) {
         preferences.edit().putInt(KEY_DATE_TIME_COLOUR, color).apply();
+    }
+
+    public void setWorldMapBackground(boolean mode) {
+        preferences.edit().putBoolean(KEY_WORDMAP_BACKGROUND, mode).apply();
+    }
+
+    public boolean showWorldMapBackground() {
+        return preferences.getBoolean(KEY_WORDMAP_BACKGROUND,false);
+    }
+
+    public boolean getAmbientModeAccuracy() {
+        return preferences.getBoolean(KEY_AMBIENT_MODE_ACCURACY,false);
+    }
+
+    public void setKeyAmbientModeAccuracy(boolean mode) {
+        preferences.edit().putBoolean(KEY_AMBIENT_MODE_ACCURACY,mode).apply();
     }
 }

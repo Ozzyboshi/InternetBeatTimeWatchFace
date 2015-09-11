@@ -208,7 +208,7 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
             super.onDraw(canvas, bounds);
-            watchFace.draw(canvas, bounds);
+            watchFace.draw(canvas, bounds,wakeLock.isHeld());
         }
 
         @Override
@@ -265,13 +265,13 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
             if (WatchfaceSyncCommons.PATH.equals(item.getUri().getPath())) {
                 DataMap dataMap = DataMapItem.fromDataItem(item).getDataMap();
                 if (dataMap.containsKey(WatchfaceSyncCommons.KEY_BACKGROUND_COLOUR)) {
-                    String backgroundColour = dataMap.getString(WatchfaceSyncCommons.KEY_BACKGROUND_COLOUR);
-                    watchFace.updateBackgroundColourTo(Color.parseColor(backgroundColour));
+                    int backgroundColour = dataMap.getInt(WatchfaceSyncCommons.KEY_BACKGROUND_COLOUR);
+                    watchFace.updateBackgroundColourTo(backgroundColour);
                 }
 
                 if (dataMap.containsKey(WatchfaceSyncCommons.KEY_DATE_TIME_COLOUR)) {
-                    String timeColour = dataMap.getString(WatchfaceSyncCommons.KEY_DATE_TIME_COLOUR);
-                    watchFace.updateDateAndTimeColourTo(Color.parseColor(timeColour));
+                    int timeColour = dataMap.getInt(WatchfaceSyncCommons.KEY_DATE_TIME_COLOUR);
+                    watchFace.updateDateAndTimeColourTo(timeColour);
                 }
                 if (dataMap.containsKey(WatchfaceSyncCommons.KEY_AMBIENT_MODE_BEAT_ACCURACY)) {
                     boolean ambientModeAccuracy=dataMap.getBoolean(WatchfaceSyncCommons.KEY_AMBIENT_MODE_BEAT_ACCURACY, false);
@@ -340,6 +340,7 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
 
             try {
                 maker = new WorldMapMaker(image, false, false);
+                maker.setDrawDuskAndDawnLikeNight(true);
                 maker.BuildMapFromUnixTimestamp(System.currentTimeMillis() / 1000L);
                 watchFace.setWorldBitmap(image.getDestination());
             }
