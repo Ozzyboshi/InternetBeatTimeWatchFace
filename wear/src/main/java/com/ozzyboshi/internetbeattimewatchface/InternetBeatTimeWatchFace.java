@@ -141,7 +141,7 @@ public class InternetBeatTimeWatchFace {
             beatTimeText=String.format(java.util.Locale.ENGLISH,"@         %.2f",beats);
         else {
             beatTimeText = String.format(java.util.Locale.ENGLISH, "@            %d", (int) beats);
-            if (wakeLockHeld==false)
+            if (!wakeLockHeld)
                beatTimeText+=" *";
         }
 
