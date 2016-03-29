@@ -134,6 +134,17 @@ public class SimpleWatchFaceConfigurationActivity extends AppCompatActivity impl
             }
         });
 
+        ((ToggleButton)findViewById(R.id.configuration_internetbeattime_show_date)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PutDataMapRequest putDataMapReq = PutDataMapRequest.create(WatchfaceSyncCommons.PATH);
+                putDataMapReq.getDataMap().putBoolean(WatchfaceSyncCommons.KEY_WORLDMAP_SHOW_INTERNETBEATTIME_DATE, isChecked);
+                PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
+                Wearable.DataApi.putDataItem(googleApiClient, putDataReq);
+                watchConfigurationPreferences.setWorldMapInternetBeattimeShowDate(isChecked);
+            }
+        });
+
         backgroundColourImagePreview = findViewById(R.id.configuration_background_colour_preview);
         dateAndTimeColourImagePreview = findViewById(R.id.configuration_date_and_time_colour_preview);
 

@@ -62,6 +62,8 @@ public class InternetBeatTimeWatchFace {
     private Bitmap worldMapBitmap=null;
     private long lastBackgroundUpdateTimeStamp=0; // Last timestamp when worldMapBitmap has been updated
 
+    private boolean showInternetBeatTimeDate=false; // if true prints the internet beat time date
+
     public static InternetBeatTimeWatchFace newInstance(Context context) {
         Paint timePaint = new Paint();
         timePaint.setColor(DATE_AND_TIME_DEFAULT_COLOUR);
@@ -86,6 +88,14 @@ public class InternetBeatTimeWatchFace {
         backgroundPaint.setColor(BACKGROUND_DEFAULT_COLOUR);
 
         return new InternetBeatTimeWatchFace(timePaint, beatTimePaint, dateOnlyPaint, backgroundPaint, new Time());
+    }
+
+    public void setShowInternetBeatTimeDate(boolean showInternetBeatTimeDate) {
+        this.showInternetBeatTimeDate = showInternetBeatTimeDate;
+    }
+
+    private boolean isShowInternetBeatTimeDate() {
+        return showInternetBeatTimeDate;
     }
 
     @SuppressWarnings("deprecation")
@@ -150,9 +160,12 @@ public class InternetBeatTimeWatchFace {
         canvas.drawText(beatTimeText, beatTimeXOffset, timeYOffset + beatTimeYOffset+10, beatTimePaint);
 
         String beatDateText="@      "+utc.dayOfMonth().get()+"."+utc.monthOfYear().get()+"."+utc.year().get();
-        float beatDateXOffset = computeXOffset(beatDateText, beatTimePaint, bounds);
 
-        canvas.drawText(beatDateText, beatDateXOffset, timeYOffset + beatTimeYOffset+computeDateYOffset(beatTimeText, dateOnlyPaint)+10, beatTimePaint);
+        // Shows internet beat time date
+        if (this.isShowInternetBeatTimeDate()) {
+            float beatDateXOffset = computeXOffset(beatDateText, beatTimePaint, bounds);
+            canvas.drawText(beatDateText, beatDateXOffset, timeYOffset + beatTimeYOffset + computeDateYOffset(beatTimeText, dateOnlyPaint) + 10, beatTimePaint);
+        }
 
         String dateOnlyText = String.format(DATE_FORMAT, time.monthDay, (time.month + 1), time.year);
         float dateOnlyXOffset = computeXOffset(dateOnlyText, dateOnlyPaint, bounds);

@@ -28,4 +28,5 @@ final class WatchfaceSyncCommons {
     public static final String KEY_DATE_TIME_COLOUR = "KEY_DATE_TIME_COLOUR";
     public static final String KEY_AMBIENT_MODE_BEAT_ACCURACY = "KEY_AMBIENT_MODE_BEAT_ACCURACY";
     public static final String KEY_WORLDMAP_BACKGROUND = "KEY_WORLDMAP_BACKGROUND";
+    public static final String KEY_WORLDMAP_SHOW_INTERNETBEATTIME_DATE = "KEY_WORLDMAP_INTERNET_BEAT_TIME_SHOW_DATE";
 }

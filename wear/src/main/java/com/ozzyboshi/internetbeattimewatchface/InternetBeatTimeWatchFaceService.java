@@ -293,6 +293,11 @@ public class InternetBeatTimeWatchFaceService extends CanvasWatchFaceService {
                         worldMapEnabled=false;
                     }
                 }
+                if (dataMap.containsKey(WatchfaceSyncCommons.KEY_WORLDMAP_SHOW_INTERNETBEATTIME_DATE)) {
+                    boolean worldMapInternetBeatTimeShowDate = dataMap.getBoolean(WatchfaceSyncCommons.KEY_WORLDMAP_SHOW_INTERNETBEATTIME_DATE,false);
+                    Log.d(TAG, "World Map show internet beat time show date mode is " + worldMapInternetBeatTimeShowDate);
+                    watchFace.setShowInternetBeatTimeDate(worldMapInternetBeatTimeShowDate);
+                }
             }
         }
 

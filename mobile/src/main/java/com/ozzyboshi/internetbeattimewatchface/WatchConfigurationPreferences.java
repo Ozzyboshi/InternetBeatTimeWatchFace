@@ -30,6 +30,7 @@ public class WatchConfigurationPreferences {
     private static final int DEFAULT_BACKGROUND_COLOUR = Color.parseColor("black");
     private static final int DEFAULT_DATE_TIME_COLOUR = Color.parseColor("white");
     private static final String KEY_WORDMAP_BACKGROUND = NAME+".WORLDMAP_BACKGROUND";
+    private static final String KEY_WORDMAP_SHOWINTERNETBEATTIMEDATE = NAME+".WORLDMAP_SHOWINTERNETBEATTIMEDATE";
     private static final String KEY_AMBIENT_MODE_ACCURACY = NAME+".AMBIENT_MODE_ACCURACY";
 
     private final SharedPreferences preferences;
@@ -65,6 +66,10 @@ public class WatchConfigurationPreferences {
 
     public boolean showWorldMapBackground() {
         return preferences.getBoolean(KEY_WORDMAP_BACKGROUND,false);
+    }
+
+    public void setWorldMapInternetBeattimeShowDate (boolean mode) {
+        preferences.edit().putBoolean(KEY_WORDMAP_SHOWINTERNETBEATTIMEDATE, mode).apply();
     }
 
     public boolean getAmbientModeAccuracy() {

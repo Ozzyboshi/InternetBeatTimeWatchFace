@@ -85,6 +85,13 @@
         android:textOff="World Map Background OFF"
         android:textOn="World Map Background ON" />
 
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/configuration_internetbeattime_show_date"
+        android:textOff="Internet beat time date hidden"
+        android:textOn="Internet beat time date displayed" />
+
     <WebView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
