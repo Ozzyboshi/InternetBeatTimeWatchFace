@@ -42,7 +42,7 @@ public class SimpleWatchFaceConfigurationActivity extends AppCompatActivity impl
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
-    private static final String TAG = "SimpleWatchface";
+    private static final String TAG = "InternetBeatTimeWF";
 
     private GoogleApiClient googleApiClient;
     private View backgroundColourImagePreview;
@@ -115,7 +115,6 @@ public class SimpleWatchFaceConfigurationActivity extends AppCompatActivity impl
         ((ToggleButton) findViewById(R.id.configuration_ambient_mode_accuracy)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PutDataMapRequest putDataMapReq = PutDataMapRequest.create(WatchfaceSyncCommons.PATH);
                 putDataMapReq.getDataMap().putBoolean(WatchfaceSyncCommons.KEY_AMBIENT_MODE_BEAT_ACCURACY, !isChecked);
                 PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
                 Wearable.DataApi.putDataItem(googleApiClient, putDataReq);
@@ -126,7 +125,6 @@ public class SimpleWatchFaceConfigurationActivity extends AppCompatActivity impl
         ((ToggleButton) findViewById(R.id.configuration_world_map)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PutDataMapRequest putDataMapReq = PutDataMapRequest.create(WatchfaceSyncCommons.PATH);
                 putDataMapReq.getDataMap().putBoolean(WatchfaceSyncCommons.KEY_WORLDMAP_BACKGROUND, isChecked);
                 PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
                 Wearable.DataApi.putDataItem(googleApiClient, putDataReq);
@@ -137,7 +135,6 @@ public class SimpleWatchFaceConfigurationActivity extends AppCompatActivity impl
         ((ToggleButton)findViewById(R.id.configuration_internetbeattime_show_date)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PutDataMapRequest putDataMapReq = PutDataMapRequest.create(WatchfaceSyncCommons.PATH);
                 putDataMapReq.getDataMap().putBoolean(WatchfaceSyncCommons.KEY_WORLDMAP_SHOW_INTERNETBEATTIME_DATE, isChecked);
                 PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
                 Wearable.DataApi.putDataItem(googleApiClient, putDataReq);
@@ -159,9 +156,14 @@ public class SimpleWatchFaceConfigurationActivity extends AppCompatActivity impl
         if (watchConfigurationPreferences.getAmbientModeAccuracy())
             ((ToggleButton) findViewById(R.id.configuration_ambient_mode_accuracy)).setChecked(true);
 
+        if (watchConfigurationPreferences.getWorldMapInternetBeattimeShowDate())
+            ((ToggleButton) findViewById(R.id.configuration_internetbeattime_show_date)).setChecked(true);
 
         putDataMapReq.getDataMap().putInt(WatchfaceSyncCommons.KEY_DATE_TIME_COLOUR, watchConfigurationPreferences.getDateAndTimeColour());
         putDataMapReq.getDataMap().putInt(WatchfaceSyncCommons.KEY_BACKGROUND_COLOUR, watchConfigurationPreferences.getBackgroundColour());
+
+/*        PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
+        Wearable.DataApi.putDataItem(googleApiClient, putDataReq);*/
 
         WebView credits = (WebView)findViewById(R.id.credits);
         credits.loadUrl("file:///android_asset/www/credits.html");

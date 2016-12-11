@@ -46,7 +46,6 @@ import com.google.android.gms.wearable.DataItemBuffer;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.Wearable;
-
 import java.util.concurrent.TimeUnit;
 
 import com.ozzyboshi.worldmap.ImageSizeDifferentException;

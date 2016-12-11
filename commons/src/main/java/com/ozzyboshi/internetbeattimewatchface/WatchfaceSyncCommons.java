@@ -23,7 +23,7 @@ final class WatchfaceSyncCommons {
         //no-op
     }
 
-    public static final String PATH = "/simple_watch_face_config";
+    public static final String PATH = "/internet_beat_time_watchface_config";
     public static final String KEY_BACKGROUND_COLOUR = "KEY_BACKGROUND_COLOUR";
     public static final String KEY_DATE_TIME_COLOUR = "KEY_DATE_TIME_COLOUR";
     public static final String KEY_AMBIENT_MODE_BEAT_ACCURACY = "KEY_AMBIENT_MODE_BEAT_ACCURACY";

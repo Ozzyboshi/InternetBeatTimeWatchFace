@@ -4,7 +4,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "21.1.2"
+    buildToolsVersion "25.0.1"
 
     defaultConfig {
         applicationId "com.ozzyboshi.internetbeattimewatchface"
@@ -12,6 +12,14 @@ android {
         targetSdkVersion 23
         versionCode 8
         versionName "1.7"
+        jackOptions {
+            enabled true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     buildTypes {
         release {

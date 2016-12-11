@@ -32,6 +32,10 @@ import android.util.Log;
 import com.ozzyboshi.worldmap.WorldMapMaker;
 import com.ozzyboshi.worldmap.androidgraphics.WorldMapAndroidGraphicsDraw;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 @SuppressWarnings("deprecation")
@@ -116,7 +120,6 @@ public class InternetBeatTimeWatchFace {
     }
 
     public Double getSecondsToNextBeat() {
-        //time.setToNow();
         double beats=getBeats();
         String beatTimeText=String.format(java.util.Locale.ENGLISH, "%.3f", beats);
 
@@ -141,7 +144,7 @@ public class InternetBeatTimeWatchFace {
             canvas.drawBitmap(mBackgroundScaledBitmap, 0, (int)(bounds.centerY()/2.50), null);
         }
 
-        String timeText = String.format(shouldShowSeconds ? TIME_FORMAT_WITH_SECONDS : TIME_FORMAT_WITHOUT_SECONDS, time.hour, time.minute, time.second);
+        String timeText = String.format(java.util.Locale.ENGLISH,shouldShowSeconds ? TIME_FORMAT_WITH_SECONDS : TIME_FORMAT_WITHOUT_SECONDS, time.hour, time.minute, time.second);
         float timeXOffset = computeXOffset(timeText, timePaint, bounds);
         float timeYOffset = computeTimeYOffset(timeText, timePaint, bounds);
         canvas.drawText(timeText, timeXOffset, timeYOffset, timePaint);
@@ -159,15 +162,33 @@ public class InternetBeatTimeWatchFace {
         float beatTimeYOffset = computeDateYOffset(beatTimeText, beatTimePaint);
         canvas.drawText(beatTimeText, beatTimeXOffset, timeYOffset + beatTimeYOffset+10, beatTimePaint);
 
-        String beatDateText="@      "+utc.dayOfMonth().get()+"."+utc.monthOfYear().get()+"."+utc.year().get();
-
         // Shows internet beat time date
         if (this.isShowInternetBeatTimeDate()) {
+            String beatDateText="@      "+DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault()).format( utc.toDate());
+
+            /*if (this.dateFormat!=null) {
+                Date data = utc.toDate();
+                beatDateText="@      "+dateFormat.format(data);
+            }
+            else {
+                beatDateText="@      "+utc.dayOfMonth().get()+"."+utc.monthOfYear().get()+"."+utc.year().get();
+            }*/
             float beatDateXOffset = computeXOffset(beatDateText, beatTimePaint, bounds);
             canvas.drawText(beatDateText, beatDateXOffset, timeYOffset + beatTimeYOffset + computeDateYOffset(beatTimeText, dateOnlyPaint) + 10, beatTimePaint);
         }
 
-        String dateOnlyText = String.format(DATE_FORMAT, time.monthDay, (time.month + 1), time.year);
+        String dateOnlyText;
+        /*if (this.dateFormat!=null)
+        {
+            Date data = new Date(time.toMillis(false));
+            dateOnlyText= dateFormat.format(data);
+        }
+        else
+        {
+            dateOnlyText = String.format(java.util.Locale.ENGLISH,DATE_FORMAT, time.monthDay, (time.month + 1), time.year);
+        }*/
+        dateOnlyText = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault()).format( new Date(time.toMillis(false)));
+
         float dateOnlyXOffset = computeXOffset(dateOnlyText, dateOnlyPaint, bounds);
 
         if (worldMapBitmap!=null)

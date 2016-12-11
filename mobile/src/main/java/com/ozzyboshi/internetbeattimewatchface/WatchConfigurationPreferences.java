@@ -72,6 +72,10 @@ public class WatchConfigurationPreferences {
         preferences.edit().putBoolean(KEY_WORDMAP_SHOWINTERNETBEATTIMEDATE, mode).apply();
     }
 
+    public boolean getWorldMapInternetBeattimeShowDate() {
+        return preferences.getBoolean(KEY_WORDMAP_SHOWINTERNETBEATTIMEDATE,false);
+    }
+
     public boolean getAmbientModeAccuracy() {
         return preferences.getBoolean(KEY_AMBIENT_MODE_ACCURACY,false);
     }
@@ -79,4 +83,6 @@ public class WatchConfigurationPreferences {
     public void setKeyAmbientModeAccuracy(boolean mode) {
         preferences.edit().putBoolean(KEY_AMBIENT_MODE_ACCURACY,mode).apply();
     }
+
+
 }
