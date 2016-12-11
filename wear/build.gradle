@@ -10,8 +10,8 @@ android {
         applicationId "com.ozzyboshi.internetbeattimewatchface"
         minSdkVersion 20
         targetSdkVersion 23
-        versionCode 8
-        versionName "1.7"
+        versionCode 9
+        versionName "1.8"
         jackOptions {
             enabled true
         }
